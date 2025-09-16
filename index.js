@@ -1,5 +1,11 @@
 const express = require("express");
+const dotenv = require("dotenv");
+
+const connectToDatabase = require("./src/database/mongoose.database.js");
+
+dotenv.config();
 const app = express();
+connectToDatabase();
 
 app.get("/", (req, res) => {
     const task = [{ description: "Estudar programação", isCompleted: false }];
