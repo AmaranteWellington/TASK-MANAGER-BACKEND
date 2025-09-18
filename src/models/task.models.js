@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const taskSchema = Schema({
     description: {
-        type: string,
+        type: String,
         require: true,
     },
     isCompleted: {
