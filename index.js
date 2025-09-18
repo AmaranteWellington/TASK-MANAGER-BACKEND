@@ -17,6 +17,18 @@ app.get("/task", async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+app.get("/task/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const task = await taskModel.findByIdAndDelete(taskId);
+        if (!task) {
+            return res.status(404).send("Task não encontrada ou já deletada!");
+        }
+        return res.status(200).send(task);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 app.post("/task", async (req, res) => {
     try {
