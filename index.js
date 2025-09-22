@@ -20,7 +20,7 @@ app.get("/task", async (req, res) => {
 app.get("/task/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
-        const task = await taskModel.findByIdAndDelete(taskId);
+        const task = await taskModel.findById(taskId);
         if (!task) {
             return res.status(404).send("Task não encontrada ou já deletada!");
         }
@@ -37,6 +37,28 @@ app.post("/task", async (req, res) => {
         res.status(201).send(newTask);
     } catch (error) {
         res.status(500).send(error.messager);
+    }
+});
+app.patch("/task/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const taskData = req.body;
+        const taskToUpdate = await taskModel.findById(taskId);
+        const allowedUpdates = ["isCompleted"];
+        const requestedUpdates = Object.keys(req.body);
+        for (update of requestedUpdates) {
+            if (allowedUpdates.includes(update)) {
+                taskToUpdate[update] = taskData[update];
+            } else {
+                return res
+                    .status(500)
+                    .send("Um ou mais campos inseridos não são editáveis!");
+            }
+            await taskToUpdate.save();
+            return res.status(200).send(taskToUpdate);
+        }
+    } catch (error) {
+        return res.status(500).send(error.message);
     }
 });
 app.delete("/task/:id", async (req, res) => {
