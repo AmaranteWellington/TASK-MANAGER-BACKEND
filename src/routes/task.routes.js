@@ -5,7 +5,7 @@ const taskModel = require("../models/task.models");
 
 const router = express.Router();
 router.get("/", async (req, res) => {
-    return new TaskController(req, res).get();
+    return new TaskController(req, res).getAll();
 });
 
 router.get("/:id", async (req, res) => {
@@ -13,10 +13,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    return new TaskController(req, res).post();
+    return new TaskController(req, res).create();
 });
 router.patch("/:id", async (req, res) => {
-    return new TaskController(req, res).patch();
+    return new TaskController(req, res).update();
 });
 router.delete("/:id", async (req, res) => {
     return new TaskController(req, res).delete();
